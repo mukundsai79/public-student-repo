@@ -3,7 +3,7 @@
 1. grid-column-start: 3;
 2. grid-column-start: 5;
 3. grid-column-end: 4;
-4. grid-column-end:-5;
+4. grid-column-end: -5;
 5. grid-column-end: -2;
 6. grid-column-start: -3;
 7. grid-column-end: span 2;
@@ -27,6 +27,6 @@
 23. grid-template-columns: 1fr 5fr;
 24. grid-template-columns: 50px repeat(3, 1fr) 50px;
 25. grid-template-columns: 75px 3fr 2fr;
-26. grid-template-rows:50px 0 0 0 1fr;
+26. grid-template-rows: 50px 0 0 0 1fr;
 27. grid-template: 60% / 200px;
 28. grid-template: 1fr 50px / 1fr 4fr;

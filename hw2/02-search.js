@@ -4,29 +4,29 @@ const cardsContainer = document.getElementById("cardDeck");
 
 searchButton.addEventListener("click", () => {
   const searchTerm = searchInputField.value.toLowerCase().trim();
-  cardsContainer.innerHTML = ""; // Clear previous results
+  cardsContainer.innerHTML = "";
   const filteredCharacters = characters.filter((character) =>
     character.name.toLowerCase().includes(searchTerm)
   );
 
-  if (filteredCharacters.length) {
+  if (filteredCharacters.length > 0) {
     filteredCharacters.forEach((character) => {
       const characterColumn = document.createElement("div");
-      characterColumn.className = "col-sm-6 col-md-3 col-lg-2";
+      characterColumn.className = "col-sm-6 col-md-5 col-lg-2";
 
       const characterCard = document.createElement("div");
       characterCard.className = "card h-60";
 
       characterCard.innerHTML = `
-                <div class="card-body">
-                    <h5 class="card-title">${highlightKeyword(
-                      character.name,
-                      searchTerm
-                    )}</h5>
-                    <p class="card-text">Birth year: <span>${
-                      character.birth_year
-                    }</span></p>
-                </div>`;
+        <div class="card-body">
+          <h5 class="card-title">${highlightKeyword(
+            character.name,
+            searchTerm
+          )}</h5>
+          <p class="card-text">Birth year: <span>${
+            character.birth_year
+          }</span></p>
+        </div>`;
 
       characterColumn.appendChild(characterCard);
       cardsContainer.appendChild(characterColumn);
