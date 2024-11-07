@@ -1,45 +1,69 @@
-const searchButton = document.querySelector("input[type='button']");
-const searchInputField = document.getElementById("userInput");
-const cardsContainer = document.getElementById("cardDeck");
+document.addEventListener("DOMContentLoaded", () => {
+  const cardsContainer = document.getElementById("cardDeck");
 
-searchButton.addEventListener("click", () => {
-  const searchTerm = searchInputField.value.toLowerCase().trim();
-  cardsContainer.innerHTML = "";
-  const filteredCharacters = characters.filter((character) =>
-    character.name.toLowerCase().includes(searchTerm)
-  );
+  const highlightKeyword = (text, searchTerm) =>
+    searchTerm
+      ? text.replace(new RegExp(`(${searchTerm})`, "gi"), `<mark>$1</mark>`)
+      : text;
 
-  if (filteredCharacters.length > 0) {
-    filteredCharacters.forEach((character) => {
-      const characterColumn = document.createElement("div");
-      characterColumn.className = "col-sm-6 col-md-5 col-lg-2";
+  const createCharacterCard = (
+    character,
+    searchTerm = "",
+    noResults = false
+  ) => {
+    const cardContainer = document.createElement("div");
+    cardContainer.className = "col-auto mb-4";
+    cardContainer.style.width = "18rem";
 
-      const characterCard = document.createElement("div");
-      characterCard.className = "card h-60";
+    const card = document.createElement("div");
+    card.className = "card text-center";
+    card.style.minHeight = "150px";
 
-      characterCard.innerHTML = `
-        <div class="card-body">
-          <h5 class="card-title">${highlightKeyword(
-            character.name,
-            searchTerm
-          )}</h5>
-          <p class="card-text">Birth year: <span>${
-            character.birth_year
-          }</span></p>
-        </div>`;
+    const cardBody = document.createElement("div");
+    cardBody.className = "card-body d-flex flex-column";
 
-      characterColumn.appendChild(characterCard);
-      cardsContainer.appendChild(characterColumn);
-    });
-  } else {
-    cardsContainer.innerHTML = '<p class="text-center">No results found</p>';
-  }
+    const title = document.createElement("h2");
+    title.className = "card-title";
+    title.innerHTML = noResults
+      ? "No characters found"
+      : highlightKeyword(character.name, searchTerm);
+
+    cardBody.appendChild(title);
+
+    if (!noResults) {
+      const birthYear = document.createElement("p");
+      birthYear.className = "card-text";
+      birthYear.textContent = `Birth Year: ${character.birth_year}`;
+      cardBody.appendChild(birthYear);
+    }
+
+    card.appendChild(cardBody);
+    cardContainer.appendChild(card);
+    return cardContainer;
+  };
+
+  const displayFilteredCharacters = (searchTerm = "") => {
+    cardsContainer.innerHTML = "";
+    const filteredCharacters = searchTerm
+      ? characters.filter(({ name }) =>
+          name.toLowerCase().includes(searchTerm.toLowerCase())
+        )
+      : characters;
+
+    filteredCharacters.length
+      ? filteredCharacters.forEach((character) =>
+          cardsContainer.appendChild(createCharacterCard(character, searchTerm))
+        )
+      : cardsContainer.appendChild(createCharacterCard({}, "", true));
+  };
+
+  document.getElementById("searchButton").addEventListener("click", () => {
+    const searchTerm = document
+      .getElementById("userInput")
+      .value.trim()
+      .toLowerCase();
+    displayFilteredCharacters(searchTerm);
+  });
+
+  displayFilteredCharacters();
 });
-
-function highlightKeyword(text, searchTerm) {
-  const regex = new RegExp(`(${searchTerm})`, "gi");
-  return text.replace(
-    regex,
-    '<span style="background-color: yellow;">$1</span>'
-  );
-}

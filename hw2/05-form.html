@@ -3,149 +3,170 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exercise 05 - Form</title>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>05 - Form</title>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
     />
-    <script defer src="05-form.js"></script>
-    <script
-      defer
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-    ></script>
     <style>
-      body {
-        background-color: #1a1d20; 
+      .modal-label {
+        padding: 5px;
+        display: inline-block;
+        font-weight: bold;
       }
-
-      .form-bg {
-        background-color: #f0f0f0;
-        padding: 1rem; 
-        border-radius: 0.5rem;
-      }
-
-      .fade {
-        background-color: rgba(0, 0, 0, 0.8); 
-      }
-
-      .dialog {
-        background-color: #f8f9fa; 
-        border-radius: 0.5rem; 
-        padding: 1rem; 
-      }
-
-      .header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-      }
-
-      .title {
-        margin: 0;
+      .modal-value {
+        display: inline-block;
       }
     </style>
+
+    <script defer src="05-form.js"></script>
   </head>
-  <body>
-    <div class="container d-flex justify-content-center mt-5">
-      <div class="col-lg-6">
-        <div class="form-bg"> 
-          <form id="regForm" novalidate>
-            <h2 class="text-center mb-4">Exercise 05 - Form</h2>
-            <div class="mb-3">
-              <label for="fullName" class="form-label fw-bold">Full Name:</label>
-              <input
-                type="text"
-                class="form-control"
-                id="fullName"
-                name="fullName"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="userEmail" class="form-label fw-bold">Email:</label>
-              <input
-                type="email"
-                class="form-control"
-                id="userEmail"
-                name="userEmail"
-                required
-              />
-            </div>
-            <div class="mb-3">
-              <label for="regStatus" class="form-label fw-bold">Registration Status:</label>
-              <select
-                class="form-select"
-                id="regStatus"
-                name="regStatus"
-                required
-              >
-                <option value="">Choose an option</option>
-                <option value="Registered">Registered</option>
-                <option value="Not Registered">Not Registered</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <fieldset>
-                <legend class="fw-bold">Have you take any of the courses?</legend>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="coursePL"
-                    name="courses"
-                    value="Programming Languages"
-                  />
-                  <label class="form-check-label" for="coursePL">Programming Languages</label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="courseOS"
-                    name="courses"
-                    value="Operating Systems"
-                  />
-                  <label class="form-check-label" for="courseOS">Operating Systems</label>
-                </div>
-                <div class="form-check">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    id="courseWebDev"
-                    name="courses"
-                    value="Full Stack Web Development"
-                  />
-                  <label class="form-check-label" for="courseWebDev">Full Stack Web Development</label>
-                </div>
-              </fieldset>
-            </div>
-            <div class="mb-3">
-              <label for="userComments" class="form-label fw-bold">Anything else?</label>
-              <textarea
-                class="form-control"
-                id="userComments"
-                rows="3"
-                name="userComments"
-              ></textarea>
-            </div>
-            <div class="d-flex gap-2">
-              <button
-                type="submit"
-                class="btn btn-primary w-100"
-                data-bs-toggle="detailsDialog"
-                data-bs-target="#detailsDialog"
-              >
-                Submit
-              </button>
-              <button type="reset" class="btn btn-secondary w-100">Reset</button>
-            </div>
-          </form>
+  <body class="bg-dark p-4">
+    <main
+      class="container bg-white rounded-3 p-4 my-2 mx-auto d-flex"
+      style="
+        max-width: 500px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      "
+    >
+      <form id="userForm">
+        <h1 class="text-center mb-4">Exercise 05 - Form</h1>
+        <div class="mb-3">
+          <label for="fullName" class="form-label fw-bold">Full Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fullName"
+            name="Full Name"
+            placeholder=""
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="email" class="form-label fw-bold">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            name="Email"
+            placeholder=""
+            required
+          />
+        </div>
+        <div class="mb-3">
+          <label for="registrationStatus" class="form-label fw-bold"
+            >Registration Status:</label
+          >
+          <select
+            class="form-select"
+            name="Registration Status"
+            id="registrationStatus"
+            required
+          >
+            <option selected disabled value="">Choose an Option</option>
+            <option value="registered">Registered</option>
+            <option value="not-registered">Not Registered</option>
+          </select>
+        </div>
+        <fieldset class="mb-3">
+          <legend class="fw-bold" style="font-size: 1rem">
+            Have you taken any of the following courses?
+          </legend>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="programming"
+              id="courseProgramming"
+              name="courseProgramming"
+            />
+            <label class="form-check-label" for="courseProgramming">
+              Programming Languages
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="operating"
+              id="courseOperating"
+              name="courseOperating"
+            />
+            <label class="form-check-label" for="courseOperating">
+              Operating Systems
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value="fullstack"
+              id="courseFullStack"
+              name="courseFullStack"
+            />
+            <label class="form-check-label" for="courseFullStack">
+              Full Stack Web Development
+            </label>
+          </div>
+        </fieldset>
+        <div class="mb-3">
+          <label for="additionalInfo" class="form-label fw-bold"
+            >Anything else?</label
+          >
+          <textarea
+            class="form-control"
+            id="additionalInfo"
+            name="Additional Info"
+            rows="3"
+            required
+          ></textarea>
+        </div>
+        <div class="d-flex w-100 mb-3">
+          <button type="submit" class="btn btn-primary w-100 me-1">
+            Submit
+          </button>
+          <button type="reset" class="btn btn-secondary w-100 ms-1">
+            Reset
+          </button>
+        </div>
+      </form>
+    </main>
+    <!-- Start of Modal Section: This is where the modal for displaying submission data begins -->
+    <div
+      class="modal fade"
+      id="submitModal"
+      tabindex="-1"
+      aria-labelledby="modalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="modalLabel">Form Submission Data</h2>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body"></div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
         </div>
       </div>
     </div>
-
-    <div class="fade" id="detailsDialog" tabindex="-1">
-      <div class="dialog">
-        <div class="content">
-          <div class="header">
-            <h5 class="title">Submission Details</h
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

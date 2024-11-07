@@ -1,20 +1,32 @@
-const wordInputField = document.getElementById("wordInput");
-const textDisplayContainer = document.querySelector(".textContainer");
-const originalTextContent = textDisplayContainer.textContent;
+document.addEventListener("DOMContentLoaded", () => {
+  const wordInputField = document.getElementById("wordInput");
+  const textDisplayContainer = document.getElementById("textToHighlight");
+  const originalTextContent = textDisplayContainer.textContent;
 
-const highlightWordOccurrences = () => {
-  const searchWord = wordInputField.value.trim().toLowerCase();
+  const escapeRegex = (string) => {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  };
 
-  if (searchWord) {
-    const regex = new RegExp(`\\b(${searchWord})\\b`, "gi");
+  const highlightWordOccurrences = () => {
+    const searchWord = wordInputField.value.trim().toLowerCase();
+
+    if (!searchWord) {
+      textDisplayContainer.innerHTML = originalTextContent;
+      return;
+    }
+
+    const regex = new RegExp(`(${escapeRegex(searchWord)})`, "gi");
+
     const highlightedText = originalTextContent.replace(
       regex,
-      '<span class="highlight">$1</span>'
+      "<mark>$1</mark>"
     );
     textDisplayContainer.innerHTML = highlightedText;
-  } else {
-    textDisplayContainer.textContent = originalTextContent;
-  }
-};
+  };
 
-wordInputField.addEventListener("input", highlightWordOccurrences);
+  wordInputField.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      highlightWordOccurrences();
+    }
+  });
+});

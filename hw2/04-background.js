@@ -1,61 +1,50 @@
-const bodyElement = document.body;
-const button = document.querySelector(".start-button");
-const userInput = document.querySelector("#userInput");
+document.addEventListener("DOMContentLoaded", () => {
+  const bodyElement = document.body;
+  const intervalInput = document.getElementById("intervalInput");
+  const toggleButton = document.getElementById("toggleButton");
 
-let time = 1000;
-let intervalId = null;
+  let intervalId = null;
+  let isRunning = false;
 
-// Function to generate a random hex color
-const getRandomColor = () => {
-  return `#${Math.floor(Math.random() * 16777215)
-    .toString(16)
-    .padStart(6, "0")}`;
-};
+  const getRandomColor = () =>
+    `rgba(${(Math.random() * 256) | 0}, ${(Math.random() * 256) | 0}, ${
+      (Math.random() * 256) | 0
+    }, 0.5)`;
 
-// Function to set the background color
-const setColor = (color) => {
-  bodyElement.style.backgroundColor = color;
-};
+  const startColorChange = (interval) => {
+    if (intervalId) clearInterval(intervalId);
 
-// Set initial background color
-setColor("#543FB7");
+    intervalId = setInterval(() => {
+      bodyElement.style.backgroundColor = getRandomColor();
+    }, interval * 1000);
 
-// Function to start the color change
-const startColorChange = () => {
-  clearInterval(intervalId);
-  intervalId = setInterval(() => {
-    const color = getRandomColor();
-    setColor(color);
-  }, time);
-};
+    toggleButton.textContent = "Stop";
+    toggleButton.classList.replace("btn-primary", "btn-danger");
+    isRunning = true;
+  };
 
-// Function to toggle color change on button click
-const toggleColorChange = () => {
-  if (button.value === "Start") {
-    startColorChange(); // Start changing colors
-    button.value = "Stop";
-    button.classList.replace("btn-primary", "btn-danger");
-  } else {
-    button.value = "Start";
-    button.classList.replace("btn-danger", "btn-primary");
-    clearInterval(intervalId); // Stop changing colors
-  }
-};
+  const stopColorChange = () => {
+    clearInterval(intervalId);
+    toggleButton.textContent = "Start";
+    toggleButton.classList.replace("btn-danger", "btn-primary");
+    isRunning = false;
+  };
 
-// Function to update the interval based on user input
-const updateInterval = () => {
-  let number = parseFloat(userInput.value);
+  toggleButton.addEventListener("click", () => {
+    const interval = parseFloat(intervalInput.value) || 3;
 
-  if (Number.isNaN(number) || number < 1) {
-    number = 1; // Ensure at least 1 second
-  }
+    if (isRunning) {
+      stopColorChange();
+    } else {
+      if (interval < 0.5) {
+        alert("Interval must be at least 0.5 seconds.");
+        return;
+      }
 
-  time = number * 1000; // Update time for setInterval
-  if (button.value === "Stop") {
-    startColorChange(); // Restart the interval if it's running
-  }
-};
+      startColorChange(interval);
+    }
+  });
 
-// Event listeners
-button.addEventListener("click", toggleColorChange);
-userInput.addEventListener("input", updateInterval);
+  bodyElement.style.backgroundColor = getRandomColor();
+  startColorChange(3);
+});
